@@ -1,0 +1,7 @@
+{
+    "base": [
+        "Lib\\Core\\Database.php",
+        "Lib\\Core\\Base\\Model.php",
+        "Lib\\Core\\Base\\Controller.php"
+    ]
+}

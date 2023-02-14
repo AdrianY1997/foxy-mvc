@@ -1,0 +1,8 @@
+{
+    "core": [
+        "Lib\\Core\\Request.php",
+        "Lib\\Core\\Database.php",
+        "Lib\\Core\\Session.php",
+        "Lib\\Core\\Application.php"
+    ]
+}

@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Model;
+
+use Lib\Core\Base\Model;
+
+class {{modelName}} extends Model
+{
+    public function __construct()
+    {
+        parent::__construct("{{tableName}}s");
+    }
+}

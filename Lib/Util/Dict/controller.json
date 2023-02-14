@@ -1,0 +1,6 @@
+{
+    "controller": [
+        "App\\Site\\Controller\\HomeController.php",
+        "App\\Site\\Controller\\ErrorController.php"
+    ]
+}
