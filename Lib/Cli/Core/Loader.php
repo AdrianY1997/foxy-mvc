@@ -13,7 +13,9 @@ class Loader
     private function command()
     {
         $this->load([
+            "Lib\\Cli\\Command\\Command.php",
             "Lib\\Cli\\Command\\Create.php",
+            "Lib\\Cli\\Command\\Serve.php",
         ]);
     }
 

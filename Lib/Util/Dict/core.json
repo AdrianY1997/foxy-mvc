@@ -1,8 +1,8 @@
 {
-    "core": [
-        "Lib\\Core\\Request.php",
-        "Lib\\Core\\Database.php",
-        "Lib\\Core\\Session.php",
-        "Lib\\Core\\Application.php"
-    ]
+    "core": {
+        "request": "Lib\\Core\\Request.php",
+        "database": "Lib\\Core\\Database.php",
+        "session": "Lib\\Core\\Session.php",
+        "application": "Lib\\Core\\Application.php"
+    }
 }

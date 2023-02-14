@@ -26,6 +26,19 @@ class Printer
         $this->nl();
     }
 
+    public function error()
+    {
+        $msgs = func_get_args();
+
+        foreach ($msgs as $key => $msg) {
+            $this->display("warn", $msg);
+        }
+
+        $this->display("erro", "Saliendo");
+        $this->nl();
+        exit;
+    }
+
     public function colorLog($type, $str)
     {
         $c = 'd';

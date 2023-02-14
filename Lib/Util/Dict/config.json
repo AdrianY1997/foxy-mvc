@@ -1,6 +1,6 @@
 {
-    "config": [
-        "Config\\database.php",
-        "Config\\site.php"
-    ]
+    "config": {
+        "database": "Config\\database.php",
+        "site": "Config\\site.php"
+    }
 }

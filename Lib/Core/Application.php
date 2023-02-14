@@ -19,8 +19,6 @@ class Application
 
         $controller = Controller::path($controller);
 
-
-
         if (!class_exists($controller)) {
             redirect("error/code/404");
         }
