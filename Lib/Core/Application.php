@@ -2,6 +2,7 @@
 
 namespace Lib\Core;
 
+use App\Model\Webdata;
 use App\Site\Controller\ErrorController;
 use Lib\Core\Base\Controller;
 use Lib\Core\Request;
@@ -10,7 +11,7 @@ class Application
 {
     public function __construct()
     {
-
+        Session::start();
     }
 
     public function handle()
