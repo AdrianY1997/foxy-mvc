@@ -3,6 +3,8 @@
         "request": "Lib\\Core\\Request.php",
         "database": "Lib\\Core\\Database.php",
         "session": "Lib\\Core\\Session.php",
-        "application": "Lib\\Core\\Application.php"
+        "application": "Lib\\Core\\Application.php",
+        "route": "Lib\\Core\\Route.php",
+        "redirector": "Lib\\Core\\Redirector.php"
     }
 }

@@ -1,5 +1,7 @@
 <?php
+
 use Lib\Base\Controller;
+use Lib\Core\Redirector;
 use Lib\Core\Session;
 
 function asset($path)
@@ -34,7 +36,7 @@ function route($route)
     return constant("BASE_URL") . $route;
 }
 
-function redirect(string $route)
+function redirect()
 {
-    return header("Location: " . constant("BASE_URL") . $route);
+    return new Redirector;
 }
