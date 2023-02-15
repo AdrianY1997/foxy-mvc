@@ -3,20 +3,22 @@
 namespace Lib\Core;
 
 use App\Model\Webdata;
-use App\Site\Controller\ErrorController;
 use Lib\Core\Base\Controller;
-use Lib\Core\Request;
 
 class Application
 {
     public function __construct()
     {
         Session::start();
+        Webdata::initialView();
     }
 
     public function handle()
     {
         [$controller, $method, $param] = Request::getUrl();
+
+        if (!$controller)
+            redirect(constant("HOME"));
 
         $controller = Controller::path($controller);
 
