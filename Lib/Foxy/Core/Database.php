@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Core;
+namespace Lib\Foxy\Core;
 
 use PDO;
 use PDOException;
@@ -13,6 +13,8 @@ class Database
     private $pass;
     private $port;
     private $chst;
+
+    static $connection = [];
 
     function __construct()
     {
@@ -39,10 +41,22 @@ class Database
             ];
 
             $pdo = new PDO($connection, $this->user, $this->pass, $options);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            self::$connection[] = $pdo;
 
             return $pdo;
         } catch (PDOException $e) {
             return print_r('Error connection: ' . $e->getMessage());
         }
+    }
+
+    public static function closeConnection()
+    {
+        foreach (self::$connection as $pdo) {
+            $pdo = null;
+        }
+        self::$connection = [];
     }
 }

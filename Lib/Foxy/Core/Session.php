@@ -1,8 +1,6 @@
 <?php
 
-namespace Lib\Core;
-
-use App\Model\User;
+namespace Lib\Foxy\Core;
 
 class Session
 {

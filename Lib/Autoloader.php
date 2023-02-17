@@ -1,11 +1,9 @@
 <?php
 
-namespace Lib\Core;
+namespace Lib;
 
 class Autoloader
 {
-    const LOADER_DIR = 'Lib/Util/Dict';
-
     public function __construct()
     {
         $this->loader();
@@ -24,6 +22,7 @@ class Autoloader
     private function getClassFilePath($class)
     {
         $file = $this->getFileNameFromClass($class);
+
         if (file_exists($file)) {
             return $file;
         }
@@ -36,6 +35,6 @@ class Autoloader
         $filename = array_pop($path);
         $filename = $filename . '.php';
         $path = implode(DIRECTORY_SEPARATOR, $path);
-        return self::LOADER_DIR . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $filename;
+        return $path . DIRECTORY_SEPARATOR . $filename;
     }
 }

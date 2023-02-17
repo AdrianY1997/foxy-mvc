@@ -2,49 +2,27 @@
 
 namespace App\Site\Controller;
 
-use Lib\Core\Base\Controller;
+use Lib\Foxy\Core\Base\Controller;
 
 class ErrorController extends Controller
 {
     public function __construct()
     {
-
+        parent::__construct();
     }
 
-    /**
-     * Si se intenta acceder a la ruta `www.domain.com/error`
-     * Sera automaticamente redirigido a la pagina de acceso no autorizado
-     * 
-     * @return void
-     */
-    public function index(): void
-    {
-        redirect("error/code/405");
-    }
-
-    /**
-     * Metodo de control de errores
-     * 
-     * @param string $error Cadena con el respectivo error para acceder a los mensajes
-     * 
-     * Codigos disponibles
-     * 
-     * Codigo `404`: Referente a una pagina inexistente
-     * 
-     * Codigo `405`: Referente a una pagina con permisos especificos
-     */
-    public function code(string $error): void
+    public function code($msg)
     {
         $messages = [
-            "404" => ["page not found", "the page you are looking for might have been removed had its name changed or is temporarily unavailable"],
-            "405" => ["Missing Permissions", "the page you are trying to access needs additional user permissions, please contact the administrator to solve the problem."]
+            "page-not-found" => ["404", "the page you are looking for might have been removed had its name changed or is temporarily unavailable"],
+            "missing-permissions" => ["405", "the page you are trying to access needs additional user permissions, please contact the administrator to solve the problem."]
         ];
 
-        [$title, $subtitle] = $messages[$error];
+        [$code, $subtitle] = $messages[$msg];
 
         render("error", [
-            "code" => $error,
-            "title" => $title,
+            "code" => $code,
+            "title" => ucfirst(str_replace("-", " ", $msg)),
             "subtitle" => $subtitle
         ]);
     }

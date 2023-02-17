@@ -1,8 +1,7 @@
 <?php
 
-use Lib\Base\Controller;
-use Lib\Core\Redirector;
-use Lib\Core\Session;
+use Lib\Foxy\Core\Redirector;
+use Lib\Foxy\Core\Route;
 
 function asset($path)
 {
@@ -31,9 +30,16 @@ function extend($view, $data = [])
     return include "View/" . $view . ".php";
 }
 
-function route($route)
+function route($name, $params = [])
 {
-    return constant("BASE_URL") . $route;
+    $router = Route::getRoute($name);
+    $url = $router->getUrl() ?? "";
+
+    foreach ($params as $key => $value) {
+        $url = str_replace("{{$key}}", $value, $url);
+    }
+
+    return constant("BASE_URL") . $url;
 }
 
 function redirect()

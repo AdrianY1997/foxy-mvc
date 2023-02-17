@@ -1,7 +1,7 @@
 <?php
 
-use Lib\Core\Route;
+use App\Site\Controller\HomeController;
+use Lib\Foxy\Core\Route;
 
-Route::set("/", function () {
-    redirect()->route("inicio");
-});
+Route::set("", [HomeController::class, "index"])->name(constant("HOME"));
+Route::set("testsly", [HomeController::class, "trySlyEngine"])->name("sly.test");

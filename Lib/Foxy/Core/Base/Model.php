@@ -1,8 +1,10 @@
 <?php
 
-namespace Lib\Core\Base;
+namespace Lib\Foxy\Core\Base;
 
-use Lib\Core\Database;
+use DateTime;
+use Exception;
+use Lib\Foxy\Core\Database;
 use PDOException;
 
 class Model
@@ -17,39 +19,36 @@ class Model
     }
 
     /**
-     * Inserta una fila a la base de datos
-     * 
-     * @param array $data Recibe las columnas que se van a insertar es necesario indicar [`indice => valor`]
-     * 
-     * `indice` Nombre de la columa
-     * 
-     * `valor` El valor que se añadira en la fila
-     * 
-     * `Ejemplo`: ["name" => "Jonh Doe", "email" => "jonhdoe@mail.com"]
-     * 
-     * @return bool Retorna `true` si se inserto correctamente los datos en la base de datos, de lo contrario retorna `false`
+     * Inserta datos en una tabla de la base de datos.
+     *
+     * @param string $table (opcional) El nombre de la tabla en la que se insertarán los datos. Si no se especifica,
+     * se utilizará el nombre de la tabla establecido en la instancia de la clase Model.
+     * @param array $data Los datos a insertar en la tabla.
+     * @return bool Devuelve true si se insertaron los datos correctamente, o false en caso contrario.
+     * @throws Exception Si ocurre algún error durante la ejecución de la consulta.
      */
-    public function insert(array $data): bool
+    public function insert(string $table = "", array $data): bool
     {
 
-        $names = $values = "";
+        if (empty($table))
+            $table = $this->name;
 
-        foreach ($data as $e => $v) {
-            $names .= $e . ", ";
-            $values .= "'" . $v . "', ";
-        }
-
-        $names = rtrim($names, ", ");
-        $values = rtrim($values, ", ");
-
-        $string = "INSERT INTO " . $this->name . "(" . $names . ") VALUES (" . $values . ")";
-        $query = $this->db->connect()->prepare($string);
+        $columns = implode(", ", array_keys($data));
+        $values = rtrim(str_repeat("? ", count($data)), ", ");
 
         try {
-            $query->execute();
+            $stmt = $this->db->connect()->prepare("INSERT INTO $table ($columns) VALUES ($values)");
+            $stmt->execute(array_values($data));
+            $stmt->closeCursor();
+
+            // $this->insertLog([
+            //     $table,
+            //     json_encode($data),
+            //     (new DateTime())->format('Y-m-d H:i:s')
+            // ]);
             return true;
         } catch (PDOException $e) {
-            return false;
+            throw new Exception("Error al insertar en la tabla $table: " . $e->getMessage());
         }
     }
 
@@ -109,6 +108,7 @@ class Model
 
         try {
             $query->execute();
+            $query->closeCursor();
             while ($row = $query->fetch()) {
                 $item;
 
@@ -158,7 +158,7 @@ class Model
         $query = $this->db->connect()->prepare($string);
         try {
             $query->execute();
-
+            $query->closeCursor();
             while ($row = $query->fetch()) {
                 $item;
 
@@ -216,13 +216,13 @@ class Model
             $string = rtrim($string, ', ');
         }
 
-        $string = "UPDATE " . $this->name . " SET " . $string . " WHERE " . $where;
+        $string = "UPDATE " . $this->name . " SET " . $string . $where;
 
         $query = $this->db->connect()->prepare($string);
-        $query->bindParam(':id', $id);
 
         try {
             $query->execute();
+            $query->closeCursor();
             return true;
         } catch (PDOException $e) {
             return false;
@@ -250,17 +250,23 @@ class Model
             $where = rtrim($where, ' AND ');
         }
 
-        $string = "DELETE FROM " . $this->name . " WHERE id = :id";
+        $string = "DELETE FROM " . $this->name . $where;
 
         $query = $this->db->connect()->prepare($string);
-        $query->bindParam(':id', $id);
 
         try {
             $query->execute();
-
+            $query->closeCursor();
             return true;
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function insertLog($args)
+    {
+        $stmt = $this->db->connect()->prepare("INSERT INTO insert_log (table_name, params, time) VALUES (?, ?, ?);");
+        $stmt->execute($args);
+        $stmt->closeCursor();
     }
 }

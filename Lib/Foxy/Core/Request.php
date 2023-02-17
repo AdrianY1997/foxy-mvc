@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib\Core;
+namespace Lib\Foxy\Core;
 
 class Request
 {
@@ -15,9 +15,9 @@ class Request
      */
     static function getData()
     {
-        $array = [$_GET, ...$_POST];
-
-        return $array;
+        return array_map(function ($value) {
+            return strip_tags(htmlspecialchars($value));
+        }, array_merge($_GET, $_POST));
     }
 
     /**
@@ -27,21 +27,13 @@ class Request
      * 
      * `controlador`, `metodo`, `parametros`
      */
-    static function getUrl(): array
+    static function getUrl(): string
     {
         $URL = urldecode(constant("URL"));
         $length = strlen(constant("BASE_URL"));
 
-        $url = substr_replace($URL, "", 0, $length);
-        $url = explode("/", trim($url, "/"));
+        $url = substr($URL, $length);
 
-        $c = $url[0];
-        $f = isset($url[1]) ? $url[1] : "";
-        $p = isset($url[2]) ? $url[2] : "";
-
-        if (!$c)
-            redirect(getenv("HOME"));
-
-        return [$c, $f, $p];
+        return $url;
     }
 }
