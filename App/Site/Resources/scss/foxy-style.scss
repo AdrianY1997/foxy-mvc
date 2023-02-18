@@ -1,5 +1,8 @@
+@import "Component/global";
 @import "Component/root";
 
+@import "Component/background";
+@import "Component/border";
 @import "Component/container";
 @import "Component/display";
 @import "Component/icon";
@@ -7,3 +10,5 @@
 @import "Component/padding";
 @import "Component/position";
 @import "Component/shadow";
+@import "Component/size";
+@import "Component/text";
