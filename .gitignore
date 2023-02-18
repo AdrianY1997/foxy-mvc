@@ -474,6 +474,6 @@ composer.lock
 *.scss.map
 
 ##### CSS
-css
-.css
-*/css
+css/
+*.css
+**/css
