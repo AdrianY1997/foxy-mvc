@@ -6,7 +6,6 @@ class Request
 {
     public function __construct()
     {
-
     }
 
     /**
@@ -25,7 +24,7 @@ class Request
      * 
      * @return array Retorna un array con los datos tomados 
      * 
-     * `controlador`, `metodo`, `parametros`
+     * `controlador`, `método`, `parámetros`
      */
     static function getUrl(): string
     {

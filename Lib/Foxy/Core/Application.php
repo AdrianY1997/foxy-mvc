@@ -2,7 +2,6 @@
 
 namespace Lib\Foxy\Core;
 
-use Lib\Foxy\Core\Response;
 use Lib\Foxy\Core\Session;
 
 class Application
@@ -17,9 +16,8 @@ class Application
         $url = Request::getUrl();
         $route = Route::getRouteFromUrl($url);
 
-        if (!$route) {
-            redirect()->route("error", ["msg" => "page-not-found"]);
-        }
+        if (!$route)
+            redirect()->route("error", ["msg" => "page-not-found"])->with("error")->message("Mensaje de prueba")->send();
 
         call_user_func_array([new $route["controller"], $route["method"]], $route["param"]);
     }

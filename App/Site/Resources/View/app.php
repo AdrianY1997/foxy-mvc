@@ -20,8 +20,12 @@
     <footer>
         <?php include_once "App\\Site\\Resources\\View\\base\\footer.php"; ?>
     </footer>
+    <div class="app-messages">
+        <?php include_once "App\\Site\\Resources\\View\\base\\messages.php"; ?>
+    </div>
 
-    <script src="<?= resource("js\\icon.js") ?>"></script>
+    <script src="<?= resource("js\\foxy-icon.js") ?>"></script>
+    <script src="<?= resource("js\\foxy-main.js") ?>"></script>
 </body>
 
 </html>

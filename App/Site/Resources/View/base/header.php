@@ -6,7 +6,7 @@
                 <p class="foxy-self-center foxy-mars-1">Foxy MVC</p>
             </div>
             <div class="foxy-self-center">
-                <p><a href="https://github.com/AdrianY1997/foxy-mvc"><i class="foxy-icon foxy-icon-github"></i></a>
+                <p><a href="https://github.com/AdrianY1997/foxy-mvc" class="text-black"><i class="foxy-icon foxy-icon-github"></i></a>
                 </p>
             </div>
         </div>

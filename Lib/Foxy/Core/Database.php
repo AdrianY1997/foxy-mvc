@@ -5,6 +5,7 @@ namespace Lib\Foxy\Core;
 use PDO;
 use PDOException;
 
+
 class Database
 {
     private $host;
@@ -13,6 +14,8 @@ class Database
     private $pass;
     private $port;
     private $chst;
+
+    protected $test;
 
     static $connection = [];
 

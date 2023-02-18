@@ -7,22 +7,57 @@ use Exception;
 class Redirector
 {
     const PLACEHOLDER_PATTERN = '/\\{([a-zA-Z0-9_]{1,})\\}/';
+
     protected $route;
     protected $param;
+    protected $code;
+    protected $message;
 
     public function route($route, $param = [])
     {
         $this->route = $route;
         $this->param = $param;
 
+        return $this;
+    }
+
+    public function with(string $code = "", array $message = [])
+    {
+        if ($message) {
+            $this->code = $message['code'] ?? $message[0];
+            $this->message = $message['message'] ?? $message[1];
+            $this->appendMessage();
+        } else
+            $this->code = $code;
+
+        return $this;
+    }
+
+    public function message(string $message)
+    {
+        $this->message = $message;
+        $this->appendMessage();
+
+        return $this;
+    }
+
+    public function send()
+    {
         try {
             $url = $this->getUrlFromRoute($this->route);
-            print "$url<br>";
             header("Location: " . constant("BASE_URL") . "$url");
             exit;
         } catch (Exception $e) {
             print "Error inesperado $e";
         }
+    }
+
+    protected function appendMessage()
+    {
+        if (!$this->code)
+            return;
+
+        Session::setMessage($this->code, $this->message);
     }
 
     protected function getUrlFromRoute($routeName)

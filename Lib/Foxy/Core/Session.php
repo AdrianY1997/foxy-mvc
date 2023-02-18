@@ -70,15 +70,13 @@ class Session
             return self::$data;
     }
 
-    static function setMessage($message)
+    static function setMessage($code, $message)
     {
-        [$key, $message] = explode("::", $message);
-
-        if (!array_key_exists($key, self::$messages)) {
-            self::$messages[$key] = [];
+        if (!array_key_exists($code, self::$messages)) {
+            self::$messages[$code] = [];
         }
 
-        array_push(self::$messages[$key], $message);
+        array_push(self::$messages[$code], $message);
 
         setcookie("messages", serialize(self::$messages), time() + 5, "/");
     }
