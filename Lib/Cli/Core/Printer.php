@@ -2,6 +2,8 @@
 
 namespace Cli\Core;
 
+use DateTime;
+
 class Printer
 {
     public function __construct()
@@ -58,7 +60,10 @@ class Printer
                 break;
         }
 
-        $h = $type ? constant("VER") . "[$type] " : "";
+        $version = constant("VER");
+        $time = (new DateTime())->format("H:i:s");
+
+        $h = $type ? "[$version $time $type]" : "";
 
         switch ($c) {
             case 'e': //error

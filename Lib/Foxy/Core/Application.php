@@ -17,7 +17,7 @@ class Application
         $route = Route::getRouteFromUrl($url);
 
         if (!$route)
-            redirect()->route("error", ["msg" => "page-not-found"])->with("error")->message("Mensaje de prueba")->send();
+            redirect()->route("error", ["msg" => "page-not-found"])->send();
 
         call_user_func_array([new $route["controller"], $route["method"]], $route["param"]);
     }

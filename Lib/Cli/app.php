@@ -9,7 +9,7 @@ use Cli\Core\Loader;
 
 (new Loader())->init();
 
-define("VER", "[Alpha.0.1]");
+define("VER", "Alpha-v0.1");
 
 $app = new App();
 

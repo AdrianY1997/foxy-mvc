@@ -1,3 +1,6 @@
+const main = document.querySelector('main');
+const footer = document.querySelector('footer');
+
 const notifyClose = document.querySelectorAll('.notify-close');
 const notifyElement = document.querySelector('.notify');
 
@@ -28,3 +31,11 @@ notifyClose.forEach(element => {
 setTimeout(() => {
     notifyFade()
 }, 5000);
+
+window.addEventListener("load", () => {
+    main.style.paddingBottom = footer.offsetHeight + "px";
+});
+
+window.addEventListener("resize", () => {
+    main.style.paddingBottom = footer.offsetHeight + "px";
+});
