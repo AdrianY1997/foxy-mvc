@@ -2,7 +2,7 @@
 
 namespace App\Site\Controller;
 
-use Lib\Core\Base\Controller;
+use Lib\Foxy\Core\Base\Controller;
 
 class {{controllerName}}Controller extends Controller
 {

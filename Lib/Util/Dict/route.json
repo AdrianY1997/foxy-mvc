@@ -1,6 +1,0 @@
-{
-    "route": {
-        "exception": "Routes\\exceiption.php",
-        "web": "Routes\\web.php"
-    }
-}

@@ -34,10 +34,16 @@ class Database
      * 
      * @return PDO|string Retorna la conexión a la base de datos o Imprime una excepción
      */
-    function connect(): PDO|string
+    function connect($options = []): PDO|string
     {
+        $db_name = ";dbname=" . $this->name;
+
+        if (isset($options["dbname"]) && !$options["dbname"]) {
+            $db_name = "";
+        }
+
         try {
-            $connection = "mysql:host=" . $this->host . ";dbname=" . $this->name . ";port=" . $this->port . ";charset=" . $this->chst;
+            $connection = "mysql:host=" . $this->host . $db_name . ";port=" . $this->port . ";charset=" . $this->chst;
             $options = [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false,
@@ -53,6 +59,12 @@ class Database
         } catch (PDOException $e) {
             return print_r('Error connection: ' . $e->getMessage());
         }
+    }
+
+    public function drop($name)
+    {
+        $stmt = $this->connect()->prepare("DROP TABLE ?");
+        $stmt->execute([$name]);
     }
 
     public static function closeConnection()

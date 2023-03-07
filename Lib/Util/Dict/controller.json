@@ -1,6 +1,0 @@
-{
-    "controller": {
-        "home": "App\\Site\\Controller\\HomeController.php",
-        "error": "App\\Site\\Controller\\ErrorController.php"
-    }
-}

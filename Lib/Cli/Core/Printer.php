@@ -1,6 +1,6 @@
 <?php
 
-namespace Cli\Core;
+namespace Lib\Cli\Core;
 
 use DateTime;
 

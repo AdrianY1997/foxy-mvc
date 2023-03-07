@@ -1,9 +1,8 @@
 <?php
 
-namespace Cli\Command;
+namespace Lib\Cli\Command;
 
-use ArrayObject;
-use Cli\Base\Command;
+use Lib\Cli\Base\Command;
 
 class Create extends Command
 {
@@ -40,10 +39,10 @@ class Create extends Command
     public function component($componentFolder)
     {
         $templatePath = "Lib\\Templates\\" . ucfirst($this->argv[2]) . ".txt";
-        $dict = "Lib\\Util\\Dict\\" . $this->argv[2] . ".json";
+        $migrationPath = "Lib\\Templates\\Migration.txt";
 
         $componentTxt = $this->argv[2];
-        $componentEs = $this->argv[2] != "controller" ? $this->argv[2] != "model" ? "" : "modelo" : "controlador";
+        $componentEs = $this->argv[2] != "controller" ? ($this->argv[2] != "model" ? "" : "modelo") : "controlador";
 
         $name
             = isset($this->argv[3])
@@ -76,9 +75,9 @@ class Create extends Command
 
         $fileName
             = $componentTxt != "controller"
-            ? $componentTxt != "model"
-            ? ""
-            : $replacement . ".php"
+            ? ($componentTxt != "model"
+                ? ""
+                : $replacement . ".php")
             : $replacement . "Controller.php";
 
         $componentPath = "$componentFolder\\$fileName";
@@ -94,9 +93,16 @@ class Create extends Command
         $this->printer->display("info", "Creando $componentEs en \"$componentPath\"");
 
         $templateContent = str_replace("{{" . $componentTxt . "Name}}", $replacement, $templateContent);
-        $templateContent = strstr("{{tableName}}", $templateContent) ? str_replace("{{tableName}}", $replacement, $templateContent) : $templateContent;
+
+        $replacement = str_split($replacement);
+
+        if ($componentTxt == "model" && !($replacement[array_key_last($replacement)] == "s"))
+            $replacement[] = "s";
+
+        $templateContent = strstr($templateContent, "{{tableName}}") ? str_replace("{{tableName}}", strtolower(join("", $replacement)), $templateContent) : $templateContent;
 
         $file = fopen($componentPath, "w");
+
         if (!$file)
             $this->printer->error(
                 "hubo un error inesperado al crear el archivo",
@@ -115,30 +121,72 @@ class Create extends Command
 
         $this->printer->display("succ", "El $componentEs \"$componentPath\" ha sido creado correctamente");
 
-        $this->printer->display("info", "Actualizando diccionario \"$dict\"");
+        if ($componentTxt == "model") {
+            $migrationFilePath = "App\\Migrations\\" . ucfirst(join("", $replacement)) . "Migration.php";
 
-        $json = file_get_contents($dict);
+            $this->printer->display("info", "Creando migración en \"$migrationFilePath\"");
 
-        if (!$json)
-            $this->printer->error(
-                "No se pudo cargar el diccionario $componentTxt",
-                "Contacte con el desarrollador"
-            );
+            if (!is_file($migrationPath))
+                $this->printer->error(
+                    "Hay un problema en la ruta de la plantilla",
+                    "Contacte con el desarrollador"
+                );
 
-        $json_data = json_decode($json, true);
+            $migrationContent = file_get_contents($migrationPath);
 
-        $json_data[$componentTxt][$name] = $componentPath;
+            if (!$migrationContent)
+                $this->printer->error(
+                    "No se pudo cargar la plantilla",
+                    "Contacte con el desarrollador"
+                );
 
-        $put = file_put_contents($dict, json_encode($json_data, JSON_PRETTY_PRINT));
+            $migrationContent = str_replace("{{modelName}}", strtolower(join("", $replacement)), $migrationContent);
 
-        if (!$put) {
-            $this->printer->error(
-                "No se pudo actualizar el diccionario $componentTxt",
-                "Contacte con el desarrollador"
-            );
+            $file = fopen($migrationFilePath, "w");
+
+            if (!$file)
+                $this->printer->error(
+                    "hubo un error inesperado al crear el archivo",
+                    "Contacte con el desarrollador"
+                );
+
+            $write = fwrite($file, $migrationContent);
+
+            if (!$write)
+                $this->printer->error(
+                    "El archivo ha sido creado, pero no se pudo generar el contenido",
+                    "Contacte con el desarrollador"
+                );
+
+            fclose($file);
+
+            $this->printer->display("succ", "La migración del component ha sido creado correctamente");
         }
 
-        $this->printer->display("succ", "El diccionario \"$dict\" ha sido actualizado");
+        // $this->printer->display("info", "Actualizando diccionario \"$dict\"");
+
+        // $json = file_get_contents($dict);
+
+        // if (!$json)
+        //     $this->printer->error(
+        //         "No se pudo cargar el diccionario $componentTxt",
+        //         "Contacte con el desarrollador"
+        //     );
+
+        // $json_data = json_decode($json, true);
+
+        // $json_data[$componentTxt][$name] = $componentPath;
+
+        // $put = file_put_contents($dict, json_encode($json_data, JSON_PRETTY_PRINT));
+
+        // if (!$put) {
+        //     $this->printer->error(
+        //         "No se pudo actualizar el diccionario $componentTxt",
+        //         "Contacte con el desarrollador"
+        //     );
+        // }
+
+        // $this->printer->display("succ", "El diccionario \"$dict\" ha sido actualizado");
         $this->printer->display("succ", "Saliendo");
         $this->printer->nl();
         exit;

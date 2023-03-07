@@ -1,6 +1,6 @@
 <?php
 
-namespace Cli\Base;
+namespace Lib\Cli\Base;
 
 class Command
 {

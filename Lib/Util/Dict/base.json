@@ -1,7 +1,0 @@
-{
-    "base": {
-        "database": "Lib\\Core\\Database.php",
-        "model": "Lib\\Core\\Base\\Model.php",
-        "controller": "Lib\\Core\\Base\\Controller.php"
-    }
-}

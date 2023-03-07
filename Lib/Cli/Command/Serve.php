@@ -1,8 +1,8 @@
 <?php
 
-namespace Cli\Command;
+namespace Lib\Cli\Command;
 
-use Cli\Base\Command;
+use Lib\Cli\Base\Command;
 use Exception;
 
 class Serve extends Command

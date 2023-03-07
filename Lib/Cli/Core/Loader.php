@@ -1,6 +1,6 @@
 <?php
 
-namespace Cli\Core;
+namespace Lib\Cli\Core;
 
 class Loader
 {
@@ -14,8 +14,11 @@ class Loader
     {
         $this->load([
             "Lib\\Cli\\Command\\Command.php",
-            "Lib\\Cli\\Command\\Create.php",
+            "Lib\\Foxy\\Core\\Schema.php",
+            "Lib\\Foxy\\Core\\Blueprint.php",
             "Lib\\Cli\\Command\\Serve.php",
+            "Lib\\Cli\\Command\\Create.php",
+            "Lib\\Cli\\Command\\Database.php",
         ]);
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Cli\Core;
+namespace Lib\Cli\Core;
 
-use Cli\Core\Printer;
+use Lib\Cli\Core\Printer;
 
 class App
 {

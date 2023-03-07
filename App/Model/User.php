@@ -4,10 +4,10 @@ namespace App\Site\Model;
 
 use Lib\Foxy\Core\Base\Model;
 
-class {{modelName}} extends Model
+class User extends Model
 {
     public function __construct()
     {
-        parent::__construct("{{tableName}}");
+        parent::__construct("users");
     }
 }

@@ -25,5 +25,8 @@ class Application
     public function terminate()
     {
         Database::closeConnection();
+        $migration = include_once "App\\Migrations\\UserMigration.php";
+
+        $migration->up();
     }
 }

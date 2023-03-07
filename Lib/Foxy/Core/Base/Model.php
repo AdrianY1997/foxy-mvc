@@ -110,7 +110,7 @@ class Model
             $query->execute();
             $query->closeCursor();
             while ($row = $query->fetch()) {
-                $item;
+                $item = [];
 
                 foreach (array_keys($row) as $r) {
                     if (!is_int($r)) {
@@ -149,8 +149,7 @@ class Model
             $string = " WHERE ";
             foreach (array_keys($data) as $e) {
                 $string .= $e . "= '" . $data[$e] . "' AND ";
-            }
-            ;
+            };
         }
 
         $string = "SELECT * FROM " . $this->name . rtrim($string, 'AND ');
@@ -160,7 +159,7 @@ class Model
             $query->execute();
             $query->closeCursor();
             while ($row = $query->fetch()) {
-                $item;
+                $item = [];
 
                 foreach (array_keys($row) as $r) {
                     if (!is_int($r)) {
