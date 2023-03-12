@@ -1,7 +1,17 @@
 <?php
 
-namespace Lib\Cli\Commands;
+namespace Lib\Cli\Command\Make;
 
-class Create
+use Lib\Cli\Core\Base\Command;
+
+class Migration extends Command
 {
+    public function __construct($pro)
+    {
+        parent::__construct($pro);
+    }
+
+    public function init()
+    {
+    }
 }

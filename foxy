@@ -6,3 +6,5 @@ require_once "vendor\\autoload.php";
 define("DIR", __DIR__);
 
 $cli = include_once __DIR__ . "\\Lib\\Cli\\app.php";
+
+$cli->run($argv);
