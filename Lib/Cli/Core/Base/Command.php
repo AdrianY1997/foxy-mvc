@@ -6,12 +6,14 @@ use Lib\Cli\Core\Printer;
 
 class Command
 {
-    protected $property;
-    protected $printer;
+    protected array $property;
+    protected array $options;
+    protected Printer $printer;
 
-    public function __construct($property)
+    public function __construct(array $property, array $options)
     {
         $this->property = $property;
-        $printer = new Printer();
+        $this->options = $options;
+        $this->printer = new Printer();
     }
 }

@@ -11,5 +11,13 @@ class Set
         Register::command("make",  [
             "migration"
         ]);
+
+        Register::command("migration", [
+            "start"
+        ]);
+
+        Register::command("server", [
+            "start"
+        ]);
     }
 };
