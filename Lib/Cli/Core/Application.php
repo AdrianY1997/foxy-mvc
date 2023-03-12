@@ -28,6 +28,8 @@ class Application
             $sub = ucfirst($sub);
             $commandFile = "Lib\\Cli\\Command\\$cmd\\$sub";
 
+            var_dump($commandFile);
+
             if (!class_exists($commandFile))
                 $this->CommandError();
 

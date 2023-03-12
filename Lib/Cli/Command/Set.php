@@ -19,5 +19,10 @@ class Set
         Register::command("server", [
             "start"
         ]);
+
+        Register::command("database", [
+            "create",
+            "drop"
+        ]);
     }
 };

@@ -9,7 +9,6 @@ class Migration extends Command
     public function __construct($pro, $avs)
     {
         parent::__construct($pro, $avs);
-        $this->init();
     }
 
     public function init()

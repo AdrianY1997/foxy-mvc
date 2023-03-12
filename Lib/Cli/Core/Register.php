@@ -18,7 +18,7 @@ class Register
 
     static function checkCommand($c)
     {
-        if (array_key_exists($c[0], self::$commands) && array_search($c[1], Register::$commands[$c[0]]) == 0)
+        if (array_key_exists($c[0], self::$commands) && array_search($c[1], Register::$commands[$c[0]]) >= 0)
             return true;
         return false;
     }
