@@ -3,6 +3,7 @@
 namespace Lib\Cli\Core;
 
 use Lib\Cli\Command\Set;
+use Lib\Cli\Core\Printer;
 use Lib\Cli\Core\Register;
 
 class Application
@@ -23,7 +24,7 @@ class Application
             $sub = ucfirst($sub);
             $commandFile = "Lib\\Cli\\Command\\$cmd\\$sub";
 
-            (new $commandFile($argv[2]))->init();
+            (new $commandFile($argv))->init();
         }
     }
 }
