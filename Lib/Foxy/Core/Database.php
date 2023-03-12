@@ -5,73 +5,35 @@ namespace Lib\Foxy\Core;
 use PDO;
 use PDOException;
 
-
 class Database
 {
-    private $host;
-    private $name;
-    private $user;
-    private $pass;
-    private $port;
-    private $chst;
+    protected $host;
+    protected $name;
+    protected $user;
+    protected $pass;
 
-    protected $test;
+    protected $port;
+    protected $chst;
 
-    static $connection = [];
+    protected $pdo;
 
-    function __construct()
+    static protected $connections = [];
+
+    public function __construct($opt = [])
     {
-        $this->host = constant('DBHOST');
-        $this->name = constant('DBNAME');
-        $this->user = constant('DBUSER');
-        $this->pass = constant('DBPASS');
-        $this->port = constant("DBPORT");
-        $this->chst = constant("DBCHST");
-    }
-
-    /**
-     * Realiza la conexión a la base de datos
-     * 
-     * @return PDO|string Retorna la conexión a la base de datos o Imprime una excepción
-     */
-    function connect($options = []): PDO|string
-    {
-        $db_name = ";dbname=" . $this->name;
-
-        if (isset($options["dbname"]) && !$options["dbname"]) {
-            $db_name = "";
-        }
-
+        $dsn = "mysql:dbname=" . $opt["dbname"] ?? $this->name . ";host=" . $opt["dbhost"] ?? $this->host . ";port=" . $opt["dbport"] ?? $this->port . ";charset=" . $opt["dbchst"] ?? $this->chst;
         try {
-            $connection = "mysql:host=" . $this->host . $db_name . ";port=" . $this->port . ";charset=" . $this->chst;
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ];
-
-            $pdo = new PDO($connection, $this->user, $this->pass, $options);
-            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            self::$connection[] = $pdo;
-
-            return $pdo;
+            $this->pdo = new PDO($dsn, $this->user, $this->pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            self::$connections[] = $this->pdo;
         } catch (PDOException $e) {
-            return print_r('Error connection: ' . $e->getMessage());
+            die("Error connecting to database: " . $e->getMessage());
         }
     }
 
-    public function drop($name)
+    public function getPdo(): PDO
     {
-        $stmt = $this->connect()->prepare("DROP TABLE ?");
-        $stmt->execute([$name]);
-    }
-
-    public static function closeConnection()
-    {
-        foreach (self::$connection as $pdo) {
-            $pdo = null;
-        }
-        self::$connection = [];
+        return $this->pdo;
     }
 }
