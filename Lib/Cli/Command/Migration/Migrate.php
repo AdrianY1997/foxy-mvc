@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cli\Command\Make;
+namespace Lib\Cli\Command\Migration;
 
 use Lib\Cli\Core\Base\Command;
 
-class Migration extends Command
+class Migrate extends Command
 {
     public function __construct($pro, $avs)
     {
@@ -13,6 +13,5 @@ class Migration extends Command
 
     public function init()
     {
-        $this->printer;
     }
 }

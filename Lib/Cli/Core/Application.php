@@ -28,8 +28,6 @@ class Application
             $sub = ucfirst($sub);
             $commandFile = "Lib\\Cli\\Command\\$cmd\\$sub";
 
-            var_dump($commandFile);
-
             if (!class_exists($commandFile))
                 $this->CommandError();
 
@@ -37,10 +35,8 @@ class Application
                 return strpos($arg, '--') === 0;
             });
 
-            // 4. Obtener los valores para los sub comandos
             $values = [];
             foreach ($subcommands as $index => $subcommand) {
-                // El siguiente elemento del array será el valor para este sub comando
                 $nextIndex = $index + 1;
                 if (isset($arguments[$nextIndex]) && strpos($arguments[$nextIndex], '--') !== 0) {
                     $values[$subcommand] = $arguments[$nextIndex];
@@ -48,6 +44,8 @@ class Application
                     $values[$subcommand] = null;
                 }
             }
+
+            $argv["sub"] = strtolower($sub);
 
             (new $commandFile($argv, $values))->init();
         } else {

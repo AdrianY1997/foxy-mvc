@@ -13,7 +13,6 @@ class Start extends Command
 
     public function init()
     {
-        var_dump($this->options);
         $port = $this->options["--p"] ?? $this->options["--port"] ?? 1005;
         $host = $this->options["--h"] ?? $this->options["--host"] ?? "127.0.0.1";
 

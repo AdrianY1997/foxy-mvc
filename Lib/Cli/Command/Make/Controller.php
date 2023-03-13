@@ -1,10 +1,10 @@
 <?php
 
-namespace Lib\Cli\Command\Migration;
+namespace Lib\Cli\Command\Make;
 
-use Lib\Cli\Core\Base\Command;
+use Lib\Cli\Command\Make\MakeComponent;
 
-class Start extends Command
+class Controller extends MakeComponent
 {
     public function __construct($pro, $avs)
     {
@@ -13,5 +13,6 @@ class Start extends Command
 
     public function init()
     {
+        $this->make();
     }
 }

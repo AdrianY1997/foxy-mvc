@@ -9,7 +9,8 @@ class Set
     public function init()
     {
         Register::command("make",  [
-            "migration"
+            "controller",
+            "model"
         ]);
 
         Register::command("migration", [
