@@ -17,10 +17,14 @@ class MakeComponent extends Command
         $names = [
             "controller" => "controlador",
             "model" => "modelo",
-            "migration" => "migracion"
+            "migration" => "migración"
         ];
 
-        $templatesFolder = "Lib\Util\Templates";
+        $templatesFolder = "Lib\\Util\\Templates";
+        $controllersFolder = "App\\Site\\Controllers";
+        $modelsFolder = "App\\Site\\Models";
+        $migrationsFolder = "App\\Site\\Migrations";
+
         $component = $this->property["sub"];
         $componentEs = $names[$component];
         $componentName = $this->options["--name"] ?? $this->options["--n"] ?? null;
@@ -37,7 +41,7 @@ class MakeComponent extends Command
 
         $this->printer->display("succ", "Nombre de [$componentEs] obtenido: " . ucfirst($componentName));
 
-        $componentTemplateFile = "$templatesFolder/make-$component.template.php";
+        $componentTemplateFile = "$templatesFolder\\make-$component.template.php";
         $this->printer->display("info", "Obteniendo plantilla de [$componentEs] en \"$componentTemplateFile\"");
 
         $templateContent = file_get_contents($componentTemplateFile);
@@ -50,5 +54,85 @@ class MakeComponent extends Command
         }
 
         $this->printer->display("succ", "La plantilla de [$componentEs] ha sido cargada");
+
+        $componentContent = str_replace("__$component", ucfirst($componentName), $templateContent);
+        $componentContent = str_replace("__tableName", $componentName . "s", $componentContent);
+
+        $componentPath = $controllersFolder . "\\" . ucfirst($componentName) . "Controller.php";
+
+        $this->printer->display("succ", "Creando [$componentEs] en \"$controllersFolder");
+
+        $componentFile = fopen($componentPath, "w");
+
+        if (!$componentFile) {
+            $this->printer->error(
+                "Ubo un problema al cargar el archivo",
+                "Contacte con el desarrollador",
+            );
+        }
+
+        $this->printer->display("succ", "$controllersFolder\\$componentEs ha sido creado");
+
+        $this->printer->display("succ", "Sobrescribiendo el contenido");
+
+        $componentWrite = fwrite($componentFile, $componentContent);
+
+        if (!$componentWrite) {
+            $this->printer->error(
+                "No se ha podido cargar la plantilla",
+                "Contacte con el desarrollador",
+            );
+        }
+
+        $this->printer->display("succ", "El contenido ha sido actualizado");
+
+        if ($component == "model") {
+            $migrationTemplateFile = "$templatesFolder/make-$component.template.php";
+
+            $this->printer->display("info", "Obteniendo plantilla de migraciones en \"$migrationTemplateFile\"");
+
+            $migrationContent = file_get_contents($migrationTemplateFile);
+
+            if (!$migrationContent) {
+                $this->printer->error(
+                    "No se ha podido cargar la plantilla",
+                    "Contacte con el desarrollador",
+                );
+            }
+
+            $this->printer->display("succ", "La plantilla de la migración ha sido cargada");
+
+            $migrationContent = str_replace("__$component", ucfirst($componentName), $migrationContent);
+
+            $migrationPath = $migrationsFolder . "\\" . $componentName . "Controller.php";
+
+            $this->printer->display("succ", "Creando migración en \"$migrationsFolder");
+
+            $migrationFile = fopen($migrationPath, "w");
+
+            if (!$migrationFile) {
+                $this->printer->error(
+                    "Ubo un problema al cargar el archivo",
+                    "Contacte con el desarrollador",
+                );
+            }
+
+            $this->printer->display("succ", "$migrationsFolder\\$componentEs ha sido creado");
+
+            $this->printer->display("succ", "Sobrescribiendo el contenido");
+
+            $componentWrite = fwrite($componentFile, $componentContent);
+
+            if (!$componentWrite) {
+                $this->printer->error(
+                    "No se ha podido cargar la plantilla",
+                    "Contacte con el desarrollador",
+                );
+            }
+
+            $this->printer->display("succ", "El contenido ha sido actualizado");
+        }
+
+        $this->printer->display("succ", "Saliendo...\n");
     }
 }

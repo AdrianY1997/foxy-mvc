@@ -13,5 +13,6 @@ class Model extends MakeComponent
 
     public function init()
     {
+        $this->make();
     }
 }
