@@ -2,6 +2,7 @@
 
 namespace Lib\Cli\Command\Make;
 
+use DateTime;
 use Exception;
 use Lib\Cli\Core\Base\Command;
 
@@ -55,12 +56,11 @@ class MakeComponent extends Command
 
         $this->printer->display("succ", "La plantilla de [$componentEs] ha sido cargada");
 
-        $componentContent = str_replace("__$component", ucfirst($componentName), $templateContent);
-        $componentContent = str_replace("__tableName", $componentName . "s", $componentContent);
+        $componentContent = str_replace(["__$component", "__tableName"], [ucfirst($componentName), $componentName . "s"], $templateContent);
 
-        $componentPath = $controllersFolder . "\\" . ucfirst($componentName) . "Controller.php";
+        $componentPath = ${$component . "sFolder"} . "\\" . ($component == "controller" ? (ucfirst($componentName) . "Controller.php") : (ucfirst($componentName) . ".php"));
 
-        $this->printer->display("succ", "Creando [$componentEs] en \"$controllersFolder");
+        $this->printer->display("succ", "Creando [$componentEs] en \"" . ${$component . "sFolder"} . "\"");
 
         $componentFile = fopen($componentPath, "w");
 
@@ -71,7 +71,7 @@ class MakeComponent extends Command
             );
         }
 
-        $this->printer->display("succ", "$controllersFolder\\$componentEs ha sido creado");
+        $this->printer->display("succ", "\"" . ${$component . "sFolder"} . "\\$componentEs\" ha sido creado");
 
         $this->printer->display("succ", "Sobrescribiendo el contenido");
 
@@ -87,7 +87,7 @@ class MakeComponent extends Command
         $this->printer->display("succ", "El contenido ha sido actualizado");
 
         if ($component == "model") {
-            $migrationTemplateFile = "$templatesFolder/make-$component.template.php";
+            $migrationTemplateFile = "$templatesFolder\\make-migration.template.php";
 
             $this->printer->display("info", "Obteniendo plantilla de migraciones en \"$migrationTemplateFile\"");
 
@@ -102,11 +102,11 @@ class MakeComponent extends Command
 
             $this->printer->display("succ", "La plantilla de la migración ha sido cargada");
 
-            $migrationContent = str_replace("__$component", ucfirst($componentName), $migrationContent);
+            $migrationContent = str_replace(["__tableName", "__acronym"], [$componentName, substr($componentName, 0, 4)], $migrationContent);
 
-            $migrationPath = $migrationsFolder . "\\" . $componentName . "Controller.php";
+            $migrationPath = $migrationsFolder . "\\" . $componentName . "-" . date_timestamp_get(date_create()) .  ".php";
 
-            $this->printer->display("succ", "Creando migración en \"$migrationsFolder");
+            $this->printer->display("succ", "Creando migración en \"$migrationsFolder\"");
 
             $migrationFile = fopen($migrationPath, "w");
 
@@ -117,13 +117,13 @@ class MakeComponent extends Command
                 );
             }
 
-            $this->printer->display("succ", "$migrationsFolder\\$componentEs ha sido creado");
+            $this->printer->display("succ", "\"$migrationsFolder\\$componentEs\" ha sido creado");
 
             $this->printer->display("succ", "Sobrescribiendo el contenido");
 
-            $componentWrite = fwrite($componentFile, $componentContent);
+            $migrationWrite = fwrite($migrationFile, $migrationContent);
 
-            if (!$componentWrite) {
+            if (!$migrationWrite) {
                 $this->printer->error(
                     "No se ha podido cargar la plantilla",
                     "Contacte con el desarrollador",

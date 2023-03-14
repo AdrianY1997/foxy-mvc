@@ -2,17 +2,17 @@
 
 return new class
 {
-    protected $tableName = "__tableName";
+    protected $tableName = "profile";
 
     public function up()
     {
         $tableName = $this->tableName;
 
         return "CREATE TABLE IF NOT EXISTS $tableName (
-            __acronym_id INT AUTO_INCREMENT,
+            prof_id INT AUTO_INCREMENT,
             
 
-            PRIMARY KEY (__acronym_id)
+            PRIMARY KEY (prof_id)
         );";
     }
 

@@ -7,7 +7,7 @@ use PDO;
 
 class Create extends Command
 {
-    public function __construct($pro, $avs)
+    public function __construct($pro = [], $avs = [])
     {
         parent::__construct($pro, $avs);
     }

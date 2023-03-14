@@ -6,7 +6,7 @@ use Lib\Cli\Command\Database\Create;
 use Lib\Cli\Core\Base\Command;
 use PDO;
 
-class Migrate extends Command
+class Rollback extends Command
 {
     public function __construct($pro, $avs)
     {
@@ -15,8 +15,6 @@ class Migrate extends Command
 
     public function init()
     {
-        $migrationsFolder = "App\\Site\\Migrations";
-
         $name = constant('DBNAME');
         $host = constant('DBHOST');
         $user = constant('DBUSER');
@@ -29,16 +27,12 @@ class Migrate extends Command
         $this->printer->display("info", "Comprobando si existe una base de datos con el mismo nombre");
 
         $migrationFiles = glob(constant("DIR") . '\\App\\Site\\Migrations\\*.php');
-
-        $database = new Create();
-
-        $database->init();
         $pdo->exec("USE $name;");
 
         foreach ($migrationFiles as $key => $migrationFile) {
             $migration = require_once $migrationFile;
 
-            $pdo->exec($migration->up());
+            $pdo->exec($migration->down());
         }
     }
 }

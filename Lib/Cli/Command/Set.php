@@ -14,7 +14,8 @@ class Set
         ]);
 
         Register::command("migration", [
-            "start"
+            "migrate",
+            "rollback"
         ]);
 
         Register::command("server", [
