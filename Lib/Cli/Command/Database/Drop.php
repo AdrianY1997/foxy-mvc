@@ -7,7 +7,7 @@ use PDO;
 
 class Drop extends Command
 {
-    public function __construct($pro, $avs)
+    public function __construct($pro = [], $avs = [])
     {
         parent::__construct($pro, $avs);
     }
@@ -31,10 +31,8 @@ class Drop extends Command
             $this->printer->display("info", "Eliminando...");
             $pdo->exec("DROP DATABASE $name");
             $this->printer->display("succ", "La base de datos ha sido eliminada");
-            $this->printer->display("succ", "Saliendo...\n");
         } else {
             $this->printer->display("warn", "La base de datos aun no ha sido creada");
-            $this->printer->display("warn", "Saliendo...\n");
         }
     }
 }

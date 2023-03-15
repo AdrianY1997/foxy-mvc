@@ -3,6 +3,7 @@
 namespace Lib\Cli\Command\Migration;
 
 use Lib\Cli\Command\Database\Create;
+use Lib\Cli\Command\Database\Drop;
 use Lib\Cli\Core\Base\Command;
 use PDO;
 
@@ -34,5 +35,8 @@ class Rollback extends Command
 
             $pdo->exec($migration->down());
         }
+
+        $database = new Drop();
+        $database->init();
     }
 }

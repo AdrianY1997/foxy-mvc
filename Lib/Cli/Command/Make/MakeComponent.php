@@ -84,6 +84,8 @@ class MakeComponent extends Command
             );
         }
 
+        fclose($componentFile);
+
         $this->printer->display("succ", "El contenido ha sido actualizado");
 
         if ($component == "model") {
@@ -129,6 +131,8 @@ class MakeComponent extends Command
                     "Contacte con el desarrollador",
                 );
             }
+
+            fclose($migrationFile);
 
             $this->printer->display("succ", "El contenido ha sido actualizado");
         }

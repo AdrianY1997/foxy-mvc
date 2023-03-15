@@ -28,7 +28,6 @@ class Create extends Command
 
         if ($stmt->fetchColumn()) {
             $this->printer->display("warn", "La base de datos ya existe.");
-            $this->printer->display("warn", "Saliendo...\n");
         } else {
             $this->printer->display("info", "La base de datos no existe en el sistema");
             $this->printer->display("info", "Creando...");

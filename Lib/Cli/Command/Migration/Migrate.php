@@ -26,16 +26,14 @@ class Migrate extends Command
 
         $pdo = new PDO("mysql:host=$host;port=$port,charset=$chst", $user, $pass);
 
-        $this->printer->display("info", "Comprobando si existe una base de datos con el mismo nombre");
-
         $migrationFiles = glob(constant("DIR") . '\\App\\Site\\Migrations\\*.php');
 
         $database = new Create();
-
         $database->init();
+
         $pdo->exec("USE $name;");
 
-        foreach ($migrationFiles as $key => $migrationFile) {
+        foreach ($migrationFiles as $migrationFile) {
             $migration = require_once $migrationFile;
 
             $pdo->exec($migration->up());
