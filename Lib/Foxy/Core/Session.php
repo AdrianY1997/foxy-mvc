@@ -2,13 +2,16 @@
 
 namespace FoxyMVC\Lib\Foxy\Core;
 
+use FoxyMVC\App\Models\User;
+
 class Session {
-    static private array $data = [];
+    static private object|bool $data = false;
     static private array $messages = [];
     static private array $notifications = [];
 
     static function start() {
         session_start();
+        Session::load();
     }
 
     static function stop() {
@@ -33,7 +36,8 @@ class Session {
          */
         if (self::checkSession()) {
             $name = $_SESSION["user"];
-            return $data ?? $name;
+            $user = User::where("user_email", $name)->first();
+            if (isset($user)) self::$data = $user;
         }
     }
 
@@ -42,7 +46,8 @@ class Session {
     }
 
     static function data($key = null) {
-        return $key ? self::$data[$key] : self::$data;
+        return !Session::$data ? Session::$data : ($key ? self::$data->$key : self::$data);
+        
     }
 
     static function setMessage($message) {

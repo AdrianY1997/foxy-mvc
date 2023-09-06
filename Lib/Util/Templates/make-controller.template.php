@@ -1,8 +1,8 @@
 <?php
 
-namespace FoxyMVC\App\Https\Controllers;
+namespace FoxyMVC\App\Controllers;
 
-use FoxyMVC\Lib\Foxy\Core\Base\Controller;
+use FoxyMVC\Lib\Foxy\Core\Controller;
 
 class __controllerController extends Controller {
     public function __construct() {
@@ -10,7 +10,7 @@ class __controllerController extends Controller {
     }
 
     public function someFunction() {
-        render("something", [
+        self::render("something", [
             "foo" => "var"
         ]);
     }
