@@ -2,7 +2,6 @@
 
 namespace FoxyMVC\Lib\Foxy\Core;
 
-use FoxyMVC\App\Models\Webdata;
 use FoxyMVC\Lib\Foxy\Core\Route;
 use FoxyMVC\Lib\Foxy\Core\Request;
 use FoxyMVC\Lib\Foxy\Core\Session;

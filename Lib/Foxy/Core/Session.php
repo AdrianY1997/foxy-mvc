@@ -6,7 +6,6 @@ use FoxyMVC\App\Models\User;
 
 class Session {
     static private object|bool $data = false;
-    static private array $messages = [];
     static private array $notifications = [];
 
     static function start() {
@@ -35,9 +34,9 @@ class Session {
          * tal vez para guardar en cookie (?)
          */
         if (self::checkSession()) {
-            $name = $_SESSION["user"];
-            $user = User::where("user_email", $name)->first();
-            if (isset($user)) self::$data = $user;
+            // $name = $_SESSION["user"];
+            // $user = User::where("user_email", $name)->first();
+            // if (isset($user)) self::$data = $user;
         }
     }
 
